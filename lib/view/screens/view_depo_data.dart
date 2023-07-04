@@ -90,48 +90,37 @@ class _ViewDepoDataState extends State<ViewDepoData> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Icon(Icons.arrow_back),
-                SizedBox(
-                  width: 120,
-                ),
-                Text(
-                  "Depo Hareketler",
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelLarge
-                      ?.copyWith(fontSize: 18),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Expanded(
-              child: Container(
-                height: double.infinity,
-                child: FirebaseAnimatedList(
-                  query: dbRef,
-                  itemBuilder: (BuildContext context, DataSnapshot snapshot,
-                      Animation<double> animation, int index) {
-                    var student = snapshot.value as Map;
-                    student['key'] = snapshot.key;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Depo Hareketler'),
+        centerTitle: true,
+        leading: Icon(null),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: Container(
+                  height: double.infinity,
+                  child: FirebaseAnimatedList(
+                    query: dbRef,
+                    itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                        Animation<double> animation, int index) {
+                      var student = snapshot.value as Map;
+                      student['key'] = snapshot.key;
 
-                    return listItem(student: student);
-                  },
+                      return listItem(student: student);
+                    },
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

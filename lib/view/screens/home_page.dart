@@ -47,40 +47,44 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
           ),
           Row(
-             mainAxisAlignment: MainAxisAlignment.end,
-             crossAxisAlignment: CrossAxisAlignment.center,
-             children: [
-               GestureDetector(
-                 onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => UpdateRecord(student: student/*['key']*/)));
-                 },
-                 child: Row(
-                   children: [
-                     Icon(
-                       Icons.edit,
-                       color: AppColor.primaryColor,
-                     ),
-                   ],
-                 ),
-               ),
-               const SizedBox(
-                 width: 6,
-               ),
-               GestureDetector(
-                 onTap: () {
-                   reference.child(student['key']).remove();
-                 },
-                 child: Row(
-                   children: [
-                     Icon(
-                       Icons.delete,
-                       color: Colors.red[700],
-                     ),
-                   ],
-                 ),
-               ),
-             ],
-           )
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) =>
+                              UpdateRecord(student: student /*['key']*/)));
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.edit,
+                      color: AppColor.primaryColor,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                width: 6,
+              ),
+              GestureDetector(
+                onTap: () {
+                  reference.child(student['key']).remove();
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.delete,
+                      color: Colors.red[700],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
@@ -89,32 +93,34 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomePageControllerImp());
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            CustomAppBar(
-                titleappbar: 'Search',
-                onPressedFavorite: () {},
-                onChanged: (val) {},
-                mycontroller: TextEditingController()),
-            Expanded(
-              child: Container(
-                height: double.infinity,
-                child: FirebaseAnimatedList(
-                  query: dbRef,
-                  itemBuilder: (BuildContext context, DataSnapshot snapshot,
-                      Animation<double> animation, int index) {
-                    var student = snapshot.value as Map;
-                    student['key'] = snapshot.key;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Muşteriler"),
+        centerTitle: true,
+        leading: Icon(null),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  height: double.infinity,
+                  child: FirebaseAnimatedList(
+                    query: dbRef,
+                    itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                        Animation<double> animation, int index) {
+                      var student = snapshot.value as Map;
+                      student['key'] = snapshot.key;
 
-                    return listItem(student: student);
-                  },
+                      return listItem(student: student);
+                    },
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
